@@ -86,4 +86,5 @@ LOGOUT_REDIRECT_URL = 'index'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://gadget-kz.onrender.com',
+    'https://*.onrender.com'
 ]
