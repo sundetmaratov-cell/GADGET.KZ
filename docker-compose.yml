@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-  # 1-ші контейнер: Деректер базасы (PostgreSQL)
   db:
     image: postgres:15
     volumes:
@@ -11,7 +10,6 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
 
-  # 2-ші контейнер: Біздің Django қосымшамыз
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
