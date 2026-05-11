@@ -1,0 +1,164 @@
+{% extends 'main/base.html' %} {% load static %} {% block content %}
+<header class="hero-section text-center">
+  <div class="container">
+    <h1 class="display-3 fw-bold text-dark">Болашақ гаджеттері — осында!</h1>
+    <p class="lead mb-4 text-muted">
+      Ең соңғы үлгідегі iPhone, MacBook және ақылды сағаттар.
+    </p>
+    <a
+      href="{% url 'catalog' %}"
+      class="btn btn-dark btn-lg px-5 rounded-pill shadow"
+      >Каталогты ашу</a
+    >
+  </div>
+</header>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+      <h2 class="fw-bold mb-0">Танымал тауарлар</h2>
+      <div
+        style="width: 60px; height: 4px; background: #ffc107; margin-top: 8px"
+      ></div>
+    </div>
+    <a href="{% url 'catalog' %}" class="text-decoration-none text-dark fw-bold"
+      >Барлығын көру →</a
+    >
+  </div>
+
+  <div class="row">
+    {% for product in gadgets %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <a href="/product/{{ product.id }}/" class="product-img-wrapper">
+          {% if product.image %}
+          <img
+            src="{{ product.image.url }}"
+            class="product-img"
+            alt="{{ product.name }}"
+          />
+          {% else %}
+          <img
+            src="{% static 'images/no-image.png' %}"
+            class="product-img"
+            alt="No image"
+          />
+          {% endif %}
+        </a>
+        <div class="card-body p-4">
+          <h5 class="card-title fw-bold mb-3">
+            <a
+              href="/product/{{ product.id }}/"
+              class="text-decoration-none text-dark"
+              >{{ product.name }}</a
+            >
+          </h5>
+          <p
+            class="card-text text-muted small mb-4"
+            style="height: 45px; overflow: hidden"
+          >
+            {{ product.desc|truncatewords:10 }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="h4 mb-0 fw-bold text-primary"
+              >{{ product.price }} ₸</span
+            >
+            <a
+              href="/product/{{ product.id }}/"
+              class="btn btn-outline-dark rounded-pill px-3"
+              >Толығырақ</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <div class="p-5 bg-white rounded-4 shadow-sm">
+        <p class="text-muted fs-5 mb-0">Әзірге тауарлар қосылмаған.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div id="data" class="container mt-4"></div>
+<div class="row">
+  {% for item in external_items %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <img
+        src="{{ item.thumbnail }}"
+        class="card-img-top"
+        style="height: 200px; object-fit: cover"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="fw-bold text-primary">${{ item.price }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div id="data" class="container mt-4"></div>
+
+<script>
+  fetch("https://dummyjson.com/products/category/smartphones")
+    .then((response) => response.json())
+    .then((data) => {
+      let html =
+        '<h3 class="mt-5 mb-4">Сыртқы гаджеттер (Global):</h3><div class="row">';
+
+      data.products.slice(0, 3).forEach((item) => {
+        html += `
+          <div class="col-md-4">
+            <div class="card shadow-sm mb-4 h-100">
+              <img src="${item.thumbnail}" class="card-img-top" style="height: 200px; object-fit: cover;">
+              <div class="card-body">
+                <h5 class="card-title">${item.title}</h5>
+                <p class="text-primary fw-bold">$${item.price}</p>
+                <span class="badge bg-info text-dark">Сыртқы дереккөз</span>
+              </div>
+            </div>
+          </div>`;
+      });
+      html += "</div>";
+      document.getElementById("data").innerHTML = html;
+    })
+    .catch((err) => console.log("Сыртқы API қатесі:", err));
+</script>
+<style>
+  .hero-section {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+      url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070");
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0;
+    margin-bottom: 50px;
+  }
+  .card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+  .product-img-wrapper {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+    padding: 20px;
+  }
+  .product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+</style>
+{% endblock %}

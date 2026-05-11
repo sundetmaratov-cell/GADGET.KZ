@@ -1,0 +1,28 @@
+{% extends 'main/index.html' %} {% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Әлемдік нарықтағы жаңа смартфондар (Сыртқы API-ден)</h1>
+  <div class="row">
+    {% for item in external_items %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <img
+          src="{{ item.thumbnail }}"
+          class="card-img-top"
+          alt="{{ item.title }}"
+          style="height: 200px; object-fit: cover"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="card-text text-muted">
+            {{ item.description|truncatewords:15 }}
+          </p>
+          <p class="fw-bold text-primary">Бағасы: ${{ item.price }}</p>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>Деректер табылмады немесе API-ге қосылу мүмкін емес.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

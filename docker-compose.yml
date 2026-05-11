@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  # 1-ші контейнер: Деректер базасы (PostgreSQL)
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=gadget_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+  # 2-ші контейнер: Біздің Django қосымшамыз
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=gadget_db
+      - DB_USER=user
+      - DB_PASS=password
+      - DB_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

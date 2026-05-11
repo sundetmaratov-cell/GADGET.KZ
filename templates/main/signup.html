@@ -1,0 +1,18 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 card p-4 shadow">
+      <h3 class="text-center mb-4">Жүйеге тіркелу</h3>
+      <form method="post">
+        {% csrf_token %} {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }} {% if field.errors %}
+          <small class="text-danger">{{ field.errors|first }}</small>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-dark w-100">Тіркелу</button>
+      </form>
+    </div>
+  </div>
+</div>

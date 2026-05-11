@@ -1,0 +1,237 @@
+{% load static %}
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Байланыс - GADGET.KZ</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .content {
+        flex: 1;
+      }
+      .navbar-brand {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+      }
+      .contact-card {
+        border-radius: 15px;
+        border: none;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">GADGET.KZ</a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Басты бет</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'catalog' %}">Каталог</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Контакт</a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <span class="nav-link text-white me-2"
+                >Сәлем, {{ user.username }}!</span
+              >
+            </li>
+            <li class="nav-item">
+              <form
+                action="{% url 'logout' %}"
+                method="post"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Шығу
+                </button>
+              </form>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Кіру</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-outline-light ms-lg-2"
+                href="{% url 'signup' %}"
+                >Тіркелу</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-5 mb-5 content">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="bg-white p-4 shadow-sm rounded-4 h-100">
+            <h4 class="fw-bold mb-4">Біздің мекенжай</h4>
+            <p class="mb-1 text-muted small fw-bold text-uppercase">Офис:</p>
+            <p>Алматы қ., Абай даңғылы, 10</p>
+            <p class="mb-1 text-muted small fw-bold text-uppercase">Телефон:</p>
+            <p>+7 707 123 45 67</p>
+            <p class="mb-1 text-muted small fw-bold text-uppercase">Email:</p>
+            <p>info@gadget.kz</p>
+
+            <div class="mt-4">
+              <h5 class="fw-bold">Жұмыс уақыты:</h5>
+              <p class="text-muted">
+                Дүйсенбі - Жұма: 09:00 - 19:00<br />Сенбі: 10:00 - 16:00
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="card contact-card shadow-sm p-4">
+            {% if success %}
+            <div class="alert alert-success text-center py-5">
+              <h2 class="display-4">✓</h2>
+              <h5>Рахмет, {{ name }}!</h5>
+              <p>Хабарламаңыз сәтті жіберілді. Жақын арада жауап береміз.</p>
+              <a href="/contact/" class="btn btn-dark mt-3">Жаңа хат жазу</a>
+            </div>
+            {% else %}
+            <h2 class="fw-bold mb-4">Кері байланыс</h2>
+            <p class="text-muted mb-4">
+              Сұрақтарыңыз немесе ұсыныстарыңыз болса, төмендегі форманы
+              толтырыңыз.
+            </p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label small fw-bold text-secondary"
+                    >Атыңыз</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control form-control-lg bg-light border-0"
+                    required
+                    placeholder="Атыңызды жазыңыз"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label small fw-bold text-secondary"
+                    >Электронды пошта</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control form-control-lg bg-light border-0"
+                    required
+                    placeholder="email@example.com"
+                  />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label small fw-bold text-secondary"
+                  >Хабарлама</label
+                >
+                <textarea
+                  name="message"
+                  class="form-control form-control-lg bg-light border-0"
+                  rows="5"
+                  required
+                  placeholder="Сұрағыңызды жазыңыз..."
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-dark btn-lg w-100 shadow-sm">
+                Хабарламаны жіберу
+              </button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark text-white pt-5 pb-4">
+      <div class="container text-center text-md-start">
+        <div class="row">
+          <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-white">
+              GADGET.KZ
+            </h5>
+            <p class="small text-secondary">
+              Біз сізге ең сапалы және заманауи техниканы ұсынамыз. Бізбен бірге
+              болашаққа қадам басыңыз.
+            </p>
+          </div>
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-white">
+              Мәзір
+            </h5>
+            <p>
+              <a href="/" class="text-secondary text-decoration-none small"
+                >Басты бет</a
+              >
+            </p>
+            <p>
+              <a
+                href="/catalog/"
+                class="text-secondary text-decoration-none small"
+                >Каталог</a
+              >
+            </p>
+            <p>
+              <a
+                href="/contact/"
+                class="text-secondary text-decoration-none small"
+                >Байланыс</a
+              >
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 text-secondary">
+            <h5 class="text-uppercase mb-4 font-weight-bold text-white">
+              Байланыс
+            </h5>
+            <p class="small">Алматы қ., Абай 10</p>
+            <p class="small">info@gadget.kz</p>
+            <p class="small">+7 707 123 45 67</p>
+          </div>
+        </div>
+        <hr class="mb-4 bg-secondary" />
+        <div class="row align-items-center">
+          <div class="col-md-12 text-center">
+            <p class="small text-secondary">
+              © 2026 Барлық құқықтар қорғалған: <strong>GADGET.KZ</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
