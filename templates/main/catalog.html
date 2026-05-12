@@ -1,4 +1,4 @@
-\{% load static %}
+{% load static %}
 <!doctype html>
 <html lang="kk">
   <head>
@@ -125,7 +125,6 @@
           </p>
         </div>
 
-        <!-- Тек админге көрінетін Жаңа тауар батырмасы -->
         {% if user.is_authenticated and user.is_staff %}
         <a href="{% url 'add_product' %}" class="btn btn-success shadow-sm">
           <i class="bi bi-plus-circle me-1"></i> Жаңа тауар
@@ -194,18 +193,34 @@
                     <td class="text-primary fw-bold">{{ product.price }} ₸</td>
                     <td>
                       <div class="btn-group">
+                        <!-- Көру -->
                         <a
                           href="{% url 'product_detail' product.id %}"
                           class="btn btn-sm btn-outline-dark"
+                          title="Көру"
                           ><i class="bi bi-eye"></i
                         ></a>
 
-                        <!-- Тек админге көрінетін Өңдеу батырмасы -->
                         {% if user.is_authenticated and user.is_staff %}
+                        <!-- Өңдеу -->
                         <a
                           href="{% url 'edit_product' product.id %}"
                           class="btn btn-sm btn-outline-warning"
+                          title="Өңдеу"
                           ><i class="bi bi-pencil"></i
+                        ></a>
+
+                        <!-- Өшіру (Осы жер қосылды) -->
+                        <a
+                          href="{% url 'delete_product' product.id %}"
+                          class="btn btn-sm btn-outline-danger"
+                          title="Өшіру"
+                          onclick="
+                            return confirm(
+                              'Бұл тауарды шынымен өшіргіңіз келе ме?',
+                            );
+                          "
+                          ><i class="bi bi-trash"></i
                         ></a>
                         {% endif %}
                       </div>
