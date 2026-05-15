@@ -22,7 +22,7 @@ class Brand(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200, verbose_name="Тауар атауы")
-    price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="Бағасы")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Бағасы")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, verbose_name="Бренд")
     description = models.TextField(verbose_name="Сипаттама") 
