@@ -201,17 +201,17 @@
                           ><i class="bi bi-eye"></i
                         ></a>
 
-                        {% if user.is_authenticated and user.is_staff %}
+                        <!-- {% if user.is_authenticated and user.is_staff %} -->
                         <!-- Өңдеу -->
-                        <a
+                        <!-- <a
                           href="{% url 'edit_product' product.id %}"
                           class="btn btn-sm btn-outline-warning"
                           title="Өңдеу"
                           ><i class="bi bi-pencil"></i
-                        ></a>
+                        ></a> -->
 
                         <!-- Өшіру (Осы жер қосылды) -->
-                        <a
+                        <!-- <a
                           href="{% url 'delete_product' product.id %}"
                           class="btn btn-sm btn-outline-danger"
                           title="Өшіру"
@@ -221,8 +221,8 @@
                             );
                           "
                           ><i class="bi bi-trash"></i
-                        ></a>
-                        {% endif %}
+                        ></a> -->
+                        <!-- {% endif %} -->
                       </div>
                     </td>
                   </tr>
