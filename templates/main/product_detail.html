@@ -153,21 +153,26 @@
               </ol>
             </nav>
 
-            <div class="d-flex gap-2 mb-3">
+            {% if user.is_authenticated and user.is_staff %}
+            <div class="mb-3">
               <a
-                href="{% url 'edit_product' product.pk %}"
-                class="btn btn-sm btn-outline-warning rounded-pill px-3"
+                href="{% url 'edit_product' product.id %}"
+                class="btn btn-outline-warning me-2"
               >
                 <i class="bi bi-pencil"></i> Өңдеу
               </a>
+
               <a
-                href="{% url 'delete_product' product.pk %}"
-                class="btn btn-sm btn-outline-danger rounded-pill px-3"
-                onclick="return confirm('Өшіруді растайсыз ба?');"
+                href="{% url 'delete_product' product.id %}"
+                class="btn btn-outline-danger"
+                onclick="
+                  return confirm('Бұл тауарды шынымен өшіргіңіз келе ме?');
+                "
               >
                 <i class="bi bi-trash"></i> Өшіру
               </a>
             </div>
+            {% endif %}
 
             <h1 class="fw-bold mb-2 display-5">{{ product.name }}</h1>
             <p
